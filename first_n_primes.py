@@ -22,10 +22,34 @@
 # user	1m24.057s
 # sys	0m0.037s
 
+# PyPy v3.7.9
+#
+# $ time pypy3 first_n_primes.py 10000
+# real	0m0.231s
+# user	0m0.176s
+# sys	0m0.031s
+#
+# $ time pypy3 first_n_primes.py 100000
+# real	0m0.743s
+# user	0m0.620s
+# sys	0m0.063s
+#
+# $ time pypy3 first_n_primes.py 100000 > /dev/null
+# real	0m0.675s
+# user	0m0.639s
+# sys	0m0.020s
+#
+# $ time pypy3 first_n_primes.py 1000000 > /dev/null
+# real	0m15.654s
+# user	0m15.563s
+# sys	0m0.051s
+
 from itertools import count
 from array import array
-from math import isqrt
+import math
 from sys import argv
+
+isqrt = math.isqrt if hasattr(math, 'isqrt') else math.sqrt
 
 
 def is_prime(n):
@@ -33,7 +57,7 @@ def is_prime(n):
     #     return n > 1
     # if n % 2 == 0 or n % 3 == 0:
     #     return False
-    sqr = isqrt(n)
+    sqr = int(isqrt(n))
 
     for i in range(5, sqr + 1, 6):
         if n % i == 0 or n % (i + 2) == 0:
